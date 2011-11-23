@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cauldron", "Cauldron\Cauldron.csproj", "{801A735C-2FA6-4410-880C-B932AE3A8746}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{801A735C-2FA6-4410-880C-B932AE3A8746}.Debug|x86.ActiveCfg = Release|x86
+		{801A735C-2FA6-4410-880C-B932AE3A8746}.Debug|x86.Build.0 = Release|x86
+		{801A735C-2FA6-4410-880C-B932AE3A8746}.Release|x86.ActiveCfg = Release|x86
+		{801A735C-2FA6-4410-880C-B932AE3A8746}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
