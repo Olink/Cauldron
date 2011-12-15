@@ -13,14 +13,14 @@ using System.Threading;
 
 namespace Cauldron
 {
-    [APIVersion(1, 8)]
+    [APIVersion(1, 9)]
     public class Cauldron : TerrariaPlugin
     {
-        public static Dictionary<String, Potion> potions;
+        public static PotionList potions;
 
         public override Version Version
         {
-            get { return new Version("1.1"); }
+            get { return new Version("1.2"); }
         }
 
         public override string Name
@@ -41,34 +41,24 @@ namespace Cauldron
         public Cauldron(Main game)
             : base(game)
         {
-            potions = new Dictionary<string, Potion>();
-            String file = Path.Combine(TShock.SavePath, "potions.txt");
-            if (File.Exists(file))
+            String savepath = Path.Combine(TShock.SavePath, "potions.cfg");
+            CauldronReader reader = new CauldronReader();
+            if (File.Exists(savepath))
             {
-                using (var sr = new StreamReader(file))
+                try
                 {
-                    String line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        String[] info = line.Split();
-                        if (info.Length >= 4)
-                        {
-                            String pName = info[0];
-                            int l = 0;
-                            int.TryParse(info[1], out l);
-                            String per = info[2];
-                            Potion p = new Potion(pName, l, per);
-                            for (int i = 3; i < info.Length; i++)
-                            {
-                                int id = 0;
-                                int.TryParse(info[i], out id);
-                                p.addPotion(id);
-                            }
-                            Console.WriteLine( String.Format( "Potion {0} added.", pName));
-                            potions.Add(pName.ToLower(), p);
-                        }
-                    }
+                    potions = reader.readFile(savepath);
+                    Console.WriteLine(potions.potions.Count + " potions have been loaded.");
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            else
+            {
+                potions = reader.writeFile(savepath);
+                Console.WriteLine("Basic potion file being created.  1 potion containing regeneration for 30 seconds created");
             }
         }
 
@@ -108,7 +98,7 @@ namespace Cauldron
                 {
                     ply.SendMessage("Valid commands are:", Color.Red);
                     ply.SendMessage("/cauldron reload", Color.Red);
-                    ply.SendMessage("/cauldron potion <potion name>", Color.Red);
+                    ply.SendMessage("/cauldron <potion name>", Color.Red);
                     return;
                 }
                 
@@ -122,9 +112,10 @@ namespace Cauldron
                 }
                 else
                 {
-                    ply.SendMessage("Invalid command.  Valid commands are:", Color.Red);
-                    ply.SendMessage("/cauldron reload", Color.Red);
-                    ply.SendMessage("/cauldron potion <potion name>", Color.Red);
+                    cmd = new ApplyCmd();
+                    cmd.token(tokens);
+                    cmd.setPlayer(ply);
+                    cmd.exec();
                 }
             }
 

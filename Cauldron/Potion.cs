@@ -8,39 +8,17 @@ namespace Cauldron
 {
     public class Potion
     {
-        private String name;
-        private List<int> potions;
-        private int length = 0;
-        private string perm;
-
-        public Potion( String n, int l, String p )
-        {
-            name = n;
-            length = l;
-            perm = p;
-            potions = new List<int>();
-        }
+        public String name;
+        public int length = 0;
+        public string perm;
+        public List<int> potions;
 
         public Potion(String n, int l, String pe, List<int> p )
         {
             name = n;
             length = l;
             perm = pe;
-            potions = new List<int>();
-            foreach( int i in p )
-            {
-                potions.Add( i );
-            }
-        }
-
-        public void addPotion( int i )
-        {
-            potions.Add( i );
-        }
-
-        public String getName()
-        {
-            return name;
+            potions = p;
         }
 
         public void applyPotion(TShockAPI.TSPlayer ply)
@@ -62,5 +40,6 @@ namespace Cauldron
             }
             
         }
+
     }
 }

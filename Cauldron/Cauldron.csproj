@@ -47,6 +47,8 @@
     <Reference Include="HttpServer">
       <HintPath>DLL\HttpServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="MySql.Data">
       <HintPath>DLL\MySql.Data.dll</HintPath>
     </Reference>
@@ -69,12 +71,17 @@
     <Reference Include="TShockAPI">
       <HintPath>DLL\TShockAPI.dll</HintPath>
     </Reference>
+    <Reference Include="XNAHelpers">
+      <HintPath>DLL\XNAHelpers.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplyCmd.cs" />
     <Compile Include="Cauldron.cs" />
+    <Compile Include="CauldronReader.cs" />
     <Compile Include="Cmd.cs" />
     <Compile Include="Potion.cs" />
+    <Compile Include="PotionList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReloadCmd.cs" />
   </ItemGroup>

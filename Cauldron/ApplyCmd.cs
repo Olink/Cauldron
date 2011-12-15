@@ -9,16 +9,16 @@ namespace Cauldron
     {
         public override void exec()
         {
-            if( tokens.Length < 3 )
+            if( tokens.Length < 2 )
             {
                 ply.SendMessage( "Potion command requires a name.", Color.Red);
                 return;
             }
 
-            if( Cauldron.potions.ContainsKey( tokens[2] ) )
+            Potion p = Cauldron.potions.findPotion( tokens[1] );
+            if( p != null )
             {
-                Potion pot = Cauldron.potions[tokens[2]];
-                pot.applyPotion( ply );
+                p.applyPotion( ply );
             }
             else
             {
