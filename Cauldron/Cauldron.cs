@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace Cauldron
 {
-    [APIVersion(1, 9)]
+    [APIVersion(1, 10)]
     public class Cauldron : TerrariaPlugin
     {
         public static PotionList potions;
@@ -41,6 +41,7 @@ namespace Cauldron
         public Cauldron(Main game)
             : base(game)
         {
+        	Order = 4;
             String savepath = Path.Combine(TShock.SavePath, "potions.cfg");
             CauldronReader reader = new CauldronReader();
             if (File.Exists(savepath))
@@ -58,67 +59,61 @@ namespace Cauldron
             else
             {
                 potions = reader.writeFile(savepath);
-                Console.WriteLine("Basic potion file being created.  1 potion containing regeneration for 30 seconds created");
+            	Console.WriteLine("Basic potion file being created.");
+				Console.WriteLine("1 potion containing regeneration for 30 seconds created.");
+				Console.WriteLine("1 potion containing swiftness for 30 seconds created.");
             }
+
         }
 
         public override void Initialize()
         {
-            ServerHooks.Chat += handleCommand;
+			Commands.ChatCommands.Add( new Command( "", HandleCommand, "cauldron"));
         }
 
-        protected override void Dispose(bool disposing)
+        private void HandleCommand(CommandArgs args)
         {
-            if (disposing)
-            {
-                ServerHooks.Chat -= handleCommand;
-            }
-        }
-
-        private void handleCommand(messageBuffer buff, int i, String command, HandledEventArgs args)
-        {
-            TSPlayer ply = TShock.Players[buff.whoAmI];
+        	TSPlayer ply = args.Player;
             if (ply == null)
                 return;
 
-            String commandline = command;
-            String[] tokens = command.Split(' ');
+			if( args.Parameters.Count < 1 )
+			{
+				ply.SendMessage( "Please see help for a list of commands and the proper syntax.", Color.Red);
+				return;
+			}
 
-            if (commandline.Length > 0 && tokens[0] == "/cauldron")
-            {
-                args.Handled = true;
-                tokens = commandline.Trim().Split();
-
-                for (int k = 0; k < tokens.Length; k++)
-                {
-                    tokens[k] = tokens[k].ToLower().Trim();
-                }
-
-                if( tokens.Length == 1 )
-                {
-                    ply.SendMessage("Valid commands are:", Color.Red);
-                    ply.SendMessage("/cauldron reload", Color.Red);
-                    ply.SendMessage("/cauldron <potion name>", Color.Red);
-                    return;
-                }
-                
-                Cmd cmd = Cmd.findCmd(tokens[1]);
-
-                if (cmd != null)
-                {
-                    cmd.token(tokens);
-                    cmd.setPlayer(ply);
-                    cmd.exec();
-                }
-                else
-                {
-                    cmd = new ApplyCmd();
-                    cmd.token(tokens);
-                    cmd.setPlayer(ply);
-                    cmd.exec();
-                }
-            }
-
+			if( args.Parameters[0] == "help")
+			{
+				ply.SendMessage( "The following are valid commands:", Color.Yellow);
+				ply.SendMessage("/cauldron reload - This reloads the potions from file.", Color.Yellow);
+				ply.SendMessage("/cauldron <potion name> - Applies the specified potion.", Color.Yellow);
+			}
+			else if( args.Parameters[0] == "reload")
+			{
+				if (ply.Group.HasPermission("cauldron-reload"))
+				{
+					Console.WriteLine("Potions are being reloaded from file.");
+					var reader = new CauldronReader();
+					potions = reader.readFile(Path.Combine(TShock.SavePath, "potions.cfg"));
+				}
+				else
+				{
+					ply.SendMessage("You do not have access to this command.", Color.Red);
+				}
+			}
+			else
+			{
+				Potion p = potions.findPotion(args.Parameters[0]);
+				if (p != null)
+				{
+					p.applyPotion(ply);
+				}
+				else
+				{
+					ply.SendMessage("That potion does not exist.", Color.Red);
+				}
+			}
         }
     }
 }

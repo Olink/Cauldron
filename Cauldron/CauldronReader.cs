@@ -16,11 +16,11 @@ namespace Cauldron
             PotionList potions = new PotionList();
             List<int> potionItems = new List<int>();
             potionItems.Add(2);
-            potions.potions.Add(new Potion( "regen", 20, null, potionItems) );
+            potions.potions.Add(new Potion( "regen", 30, null, potionItems) );
 
             List<int> potionItems2 = new List<int>();
             potionItems2.Add(3);
-            potions.potions.Add(new Potion("haste", 20, null, potionItems2));
+            potions.potions.Add(new Potion("haste", 30, null, potionItems2));
 
             tw.Write(JsonConvert.SerializeObject(potions, Formatting.Indented));
             tw.Close();
