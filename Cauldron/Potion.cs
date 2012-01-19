@@ -20,7 +20,7 @@ namespace Cauldron
             perm = pe;
             potions = p;
         }
-
+		
         public void applyPotion(TShockAPI.TSPlayer ply)
         {
             if( ply.Group.HasPermission( perm ) )
@@ -29,7 +29,7 @@ namespace Cauldron
 
                 for (int i = 0; i < l; i++)
                 {
-                    ply.SetBuff(potions[i], 60*( length ) );
+                    ply.SetBuff(potions[i], 60*( length ), true );
                 }
 
                 ply.SendMessage( String.Format( "Potion {0} has been applied for {1}", name, length), Color.Green );

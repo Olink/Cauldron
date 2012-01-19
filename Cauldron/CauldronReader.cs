@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Cauldron
 {
-    class CauldronReader
+    public class CauldronReader
     {
         public PotionList writeFile(String file)
         {

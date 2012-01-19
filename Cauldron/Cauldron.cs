@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace Cauldron
 {
-    [APIVersion(1, 10)]
+    [APIVersion(1, 11)]
     public class Cauldron : TerrariaPlugin
     {
         public static PotionList potions;
