@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Terraria;
-using Hooks;
+using TerrariaApi.Server;
 using System.IO;
 using TShockAPI;
 using TShockAPI.DB;
@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace Cauldron
 {
-    [APIVersion(1, 11)]
+    [ApiVersion(1, 15)]
     public class Cauldron : TerrariaPlugin
     {
         public static PotionList potions;
